@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: circuit-breaker-backend
+  namespace: circuit-breaker-backend-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: circuit-breaker-backend
+  template:
+    metadata:
+      labels:
+        app: circuit-breaker-backend
+    spec:
+      containers:
+        - name: circuit-breaker-backend
+          image: povarovaa/circuit-breaker-backend:latest
+          ports:
+            - containerPort: 5000

@@ -1,0 +1,16 @@
+services:
+  react:
+    image: povarovaa/api-getaway-react-app:latest
+    ports:
+      - '80:3000'
+    environment:
+      - REACT_APP_FLASK_URL=http://localhost:2999/api/v1
+      - REACT_APP_PYTHON_URL=http://localhost:5000/api/v2
+  flask:
+    image: povarovaa/api-getaway-flask-app:latest
+    ports:
+      - '2999:5000'
+  python:
+    image: povarovaa/api-getaway-python-app:latest
+    ports:
+      - '5000:5000'

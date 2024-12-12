@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: circuit-breaker-backend
+  namespace: circuit-breaker-backend-app
+spec:
+  hosts:
+    - "circuit-breaker-backend"
+  http:
+    - route:
+        - destination:
+            host: circuit-breaker-backend
+            port:
+              number: 80
+      corsPolicy:
+        allowOrigins:
+          - exact: "*"
+        allowMethods:
+          - POST
+          - GET
+        allowHeaders:
+          - X-Custom-Header
+        exposeHeaders:
+          - X-Expose-Header
+        maxAge: 24h
+        allowCredentials: false

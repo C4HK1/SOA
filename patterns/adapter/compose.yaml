@@ -1,0 +1,17 @@
+services:
+  react:
+    image: povarovaa/adapter-react-app:latest
+    ports:
+      - '80:3000'
+    environment:
+      - REACT_APP_ADAPTER_URL=http://localhost:8080/sayhello
+  adapter:
+    image: povarovaa/adapter-adapter-app:latest
+    ports:
+      - '8080:8080'
+    environment:
+      - GRPC_SERVICE_URL=grpc:50051
+  grpc:
+    image: povarovaa/adapter-grpc-app:latest
+    ports:
+      - '50051:50051'

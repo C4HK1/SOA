@@ -1,0 +1,7 @@
+FROM python:3.9-slim
+WORKDIR /app
+RUN pip install flask
+RUN pip install flask-cors
+COPY . .
+EXPOSE 5000
+CMD ["python", "python-app.py"]

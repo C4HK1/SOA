@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-app
+  labels:
+    app: react-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: react-app
+  template:
+    metadata:
+      labels:
+        app: react-app
+    spec:
+      containers:
+        - name: react-app
+          image: povarovaa/adapter-react-app:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: REACT_APP_ADAPTER_URL
+              value: "http://rest-adapter:8080"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest-adapter
+  labels:
+    app: rest-adapter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rest-adapter
+  template:
+    metadata:
+      labels:
+        app: rest-adapter
+    spec:
+      containers:
+        - name: rest-adapter
+          image: povarovaa/adapter-adapter-app:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: GRPC_SERVICE_URL
+              value: "grpc-service:50051"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpc-service
+  labels:
+    app: grpc-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grpc-service
+  template:
+    metadata:
+      labels:
+        app: grpc-service
+    spec:
+      containers:
+        - name: grpc-service
+          image: povarovaa/adapter-grpc-app:latest
+          ports:
+            - containerPort: 50051

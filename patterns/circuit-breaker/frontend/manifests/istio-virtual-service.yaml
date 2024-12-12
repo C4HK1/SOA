@@ -1,0 +1,29 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: circuit-breaker-frontend-route
+  namespace: circuit-breaker-frontend-app
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - circuit-breaker-frontend-gateway
+  http:
+    - route:
+        - destination:
+            host: circuit-breaker-frontend.circuit-breaker-frontend-app.svc.cluster.local
+            port:
+              number: 80
+      corsPolicy:
+        allowOrigins:
+          - exact: "*"
+        allowMethods:
+          - GET
+          - POST
+        allowHeaders:
+          - Content-Type
+          - X-Custom-Header
+        exposeHeaders:
+          - X-Expose-Header
+        maxAge: "24h"
+        allowCredentials: false

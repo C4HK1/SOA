@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: saga-orchestrator
+  namespace: saga-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: saga-orchestrator
+  template:
+    metadata:
+      labels:
+        app: saga-orchestrator
+    spec:
+      containers:
+        - name: saga-orchestrator
+          image: <your-registry>/saga-orchestrator:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SAGA_CONFIG
+              valueFrom:
+                configMapKeyRef:
+                  name: saga-config
+                  key: steps
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: saga-orchestrator
+  namespace: saga-app
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: saga-orchestrator

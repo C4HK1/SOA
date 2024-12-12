@@ -1,0 +1,41 @@
+#react
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-app
+spec:
+  selector:
+    app: react-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer # Для использования с minikube tunnel
+---
+#adapter curl -X POST -H 'Content-Type: application/json' -d '{"name": "name"}' http://rest-adapter:8080 
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-adapter
+spec:
+  selector:
+    app: rest-adapter
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---
+#grpc
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-service
+spec:
+  selector:
+    app: grpc-service
+  ports:
+    - protocol: TCP
+      port: 50051
+      targetPort: 50051
+  type: ClusterIP

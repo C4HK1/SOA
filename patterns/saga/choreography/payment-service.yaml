@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-service
+  namespace: saga-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: payment-service
+  template:
+    metadata:
+      labels:
+        app: payment-service
+    spec:
+      containers:
+        - name: payment-service
+          image: povarovaa/payment-service:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://user:password@db:5432/paymentdb"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service
+  namespace: saga-app
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: payment-service

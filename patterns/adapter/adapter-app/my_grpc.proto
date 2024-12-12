@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package mygrpc;
+
+// Определение сервиса
+service MyService {
+    // Определение метода, который будет вызываться клиентом
+    rpc MyMethod (MyRequest) returns (MyResponse);
+}
+
+// Определение запроса
+message MyRequest {
+    string name = 1;  // Поле с именем, которое будет передано серверу
+}
+
+// Определение ответа
+message MyResponse {
+    string message = 1;  // Ответ от сервера, который будет возвращен клиенту
+}
