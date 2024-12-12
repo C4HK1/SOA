@@ -30,3 +30,5 @@ kubectl delete all --all --all-namespaces
 kubectl delete configmap --all --all-namespaces
 kubectl delete secret --all --all-namespaces
 kubectl delete pvc --all --all-namespaces
+
+curl -X POST http://flask-service:8080/sayhello -H "Content-Type: application/json" -d '{"name": "test name"}' -v

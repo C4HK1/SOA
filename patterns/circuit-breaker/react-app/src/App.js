@@ -2,7 +2,7 @@ import './App.css';
 import axios from "axios";
 import React from "react";
 
-var BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+var FLASK_URL = process.env.REACT_APP_FLASK_URL
 
 class App extends React.Component {
   constructor(props) {
@@ -24,7 +24,7 @@ class App extends React.Component {
     }}).then((response) => {
       this.setState({ response: response.data.status });
     }).catch(() => {
-      this.setState({ response: "request failed.." });
+      this.setState({ response: "Bad response.." });
     })
   };
   
@@ -33,10 +33,10 @@ class App extends React.Component {
       <div className="App">
         <div style={{ textAlign: "center", marginTop: "50px" }}>
           <h1>Frontend with Circuit Breaker</h1>
-          <button onClick={() => {this.sendRequest(BACKEND_URL)}}>Send good request</button>
+          <button onClick={() => {this.sendRequest(FLASK_URL)}}>Send good request</button>
           <br/>
           <br/>
-          <button onClick={() => {this.sendRequest(BACKEND_URL + "?param=error")}}>Send bad request</button>
+          <button onClick={() => {this.sendRequest(FLASK_URL + "?param=error")}}>Send bad request</button>
           <h2>Status: {this.state.response}</h2>
         </div>
       </div>

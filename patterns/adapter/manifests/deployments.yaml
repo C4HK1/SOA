@@ -1,71 +1,46 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: react-app
+  name: react-deployment
   labels:
-    app: react-app
+    app: react
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: react-app
+      app: react
   template:
     metadata:
       labels:
-        app: react-app
+        app: react
     spec:
       containers:
-        - name: react-app
-          image: povarovaa/adapter-react-app:latest
+        - name: react
+          image: povarovaa/adapter-react-app:latest # Заменить на актуальный образ
           ports:
-            - containerPort: 80
+            - containerPort: 3000
           env:
             - name: REACT_APP_ADAPTER_URL
-              value: "http://rest-adapter:8080"
+              value: "http://localhost:8080/sayhello"
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rest-adapter
+  name: flask-deployment
   labels:
-    app: rest-adapter
+    app: flask
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: rest-adapter
+      app: flask
   template:
     metadata:
       labels:
-        app: rest-adapter
+        app: flask
     spec:
       containers:
-        - name: rest-adapter
-          image: povarovaa/adapter-adapter-app:latest
+        - name: flask
+          image: povarovaa/adapter-react-app:latest # Заменить на актуальный образ
           ports:
-            - containerPort: 8080
-          env:
-            - name: GRPC_SERVICE_URL
-              value: "grpc-service:50051"
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: grpc-service
-  labels:
-    app: grpc-service
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: grpc-service
-  template:
-    metadata:
-      labels:
-        app: grpc-service
-    spec:
-      containers:
-        - name: grpc-service
-          image: povarovaa/adapter-grpc-app:latest
-          ports:
-            - containerPort: 50051
+            - containerPort: 3000

@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: saga-config
-data:
-  steps: |
-    - order-create
-    - payment-process
-    - inventory-reserve

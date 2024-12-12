@@ -4,4 +4,4 @@ RUN pip install flask
 RUN pip install flask-cors
 COPY . .
 EXPOSE 5000
-CMD ["python", "backend.py"]
+CMD ["python", "flask-app.py"]

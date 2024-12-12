@@ -1,0 +1,57 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: api-gateway
+spec:
+  selector:
+    istio: ingressgateway # Используем Istio ingress gateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*"
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: api-virtualservice
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - api-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /api # Все запросы с /api идут в Flask
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: flask-service
+            port:
+              number: 5000
+    - match:
+        - uri:
+            prefix: / # Остальные запросы направляются в React
+      route:
+        - destination:
+            host: react-service
+            port:
+              number: 80
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: flask-destination
+spec:
+  host: flask-service
+  trafficPolicy:
+    outlierDetection:
+      consecutive5xxErrors: 3 # Circuit Breaker сработает после 3 ошибок 5xx
+      interval: 1s # Проверка ошибок каждые 10 секунд
+      baseEjectionTime: 30s # Отключение проблемного экземпляра на 30 секунд
+      maxEjectionPercent: 100 # Можно отключить до 100% подов
+

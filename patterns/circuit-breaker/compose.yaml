@@ -1,11 +1,11 @@
 services:
   react-client:
-    image: povarovaa/circuit-breaker-frontend:latest
+    image: povarovaa/circuit-breaker-react-app:latest
     ports:
       - '80:3000'
     environment:
-      - REACT_APP_BACKEND_URL=http://10.102.180.52/
+      - REACT_APP_FLASK_URL=http://10.102.180.52/
   flask-server:
-    image: povarovaa/circuit-breaker-backend:latest
+    image: povarovaa/circuit-breaker-flask-app:latest
     ports:
       - '5000:5000'
