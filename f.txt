@@ -72,4 +72,16 @@ spec:
       protocol: HTTP
     hosts:
     - "*"
+---
+      corsPolicy:
+        allowOrigins:
+          - exact: "*"
+        allowMethods:
+          - GET
+          - POST
+          - OPTIONS
+        allowHeaders:
+          - Authorization
+          - Content-Type
+        maxAge: "86400"
 

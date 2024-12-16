@@ -1,0 +1,50 @@
+#react
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-deployment
+  labels:
+    app: react-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: react-app
+  template:
+    metadata:
+      labels:
+        app: react-app
+    spec:
+      containers:
+        - name: react-container
+          image: povarovaa/api-getaway-react-app:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: REACT_APP_FLASK_URL
+              value: "http://flask-service/api/v1"
+            - name: REACT_APP_PYTHON_URL
+              value: "inactivehost"
+---
+#flask
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-deployment
+  labels:
+    app: flask-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+        - name: flask-container
+          image: povarovaa/api-getaway-flask-app:latest
+          ports:
+            - containerPort: 5000
